@@ -61,4 +61,5 @@ def zhulikongpan(data):
     B5 = SMA(B4, 3, 1) + 100
     B6 = B5 - B2
     kongpanchengdu=np.where(B6>N1,B6-N1,0)*2.5
+    kongpanchengdu = pd.Series(kongpanchengdu, index=data.index)
     return kongpanchengdu
