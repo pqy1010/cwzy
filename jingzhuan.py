@@ -2,9 +2,12 @@ import tushare as ts
 import pandas as pd
 import numpy as np
 from tongdaxin import EMA as EMA
+from tongdaxin import SMA as SMA
 from tongdaxin import CROSS as CROSS
 from tongdaxin import MA  as MA
 from tongdaxin import REF as REF
+from tongdaxin import HHV as HHV
+from tongdaxin import LLV as LLV
 import time
 
 
@@ -41,3 +44,22 @@ def bulaojijie(data):
     XYS1=MA(XYS0,1)
     XYS2=MA(XYS0,2)
     return XYS1,XYS2
+
+
+def zhulikongpan(data):
+    H=HIGH=data['high']
+    C=CLOSE = data['close']
+    L=LOW = data['low']
+    O=OPEN = data['open']
+    N=35
+    M=35
+    N1=3
+    B1 = (HHV(H, N) - C) / (HHV(H, N) - LLV(LOW, N)) * 100 - M
+    B2 = SMA(B1, N, 1) + 100
+    B3 = (C - LLV(L, N)) / (HHV(H, N) - LLV(L, N)) * 100
+    B4 = SMA(B3, 3, 1)
+    B5 = SMA(B4, 3, 1) + 100
+    B6 = B5 - B2
+    kongpanchengdu=np.where(B6>N1,B6-N1,0)*2.5
+    kongpanchengdu = pd.Series(kongpanchengdu, index=data.index)
+    return kongpanchengdu
