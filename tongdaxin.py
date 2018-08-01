@@ -32,3 +32,17 @@ def REF(data,N):
     temp=np.zeros_like(data)+0.01
     temp[0:-N]=data[N:]
     return temp
+
+
+def SMA(data,M,N):
+    res=np.zeros(len(data))
+    for i in range(len(data)-2,-1,-1):
+        res[i]=(M*data[i]+(N-1)*res[i+1])/(N+1)
+    t = pd.Series(res, index=data.index)
+    return t
+
+def HHV(data,N):
+    return np.max(data[0:N+1])
+
+def LLV(data,N):
+    return np.min(data[0:N+1])
