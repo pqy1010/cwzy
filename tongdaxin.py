@@ -52,11 +52,13 @@ def SMA(data,N,M):
 
 # def HHV(data,N):
 #     return np.max(data[0:N])
+
+
 def HHV(data,N):
     res=np.zeros_like(data)
     res[-N:]=data[-N:]
     for i in range(len(data)-N,-1,-1):
-        res[i]=np.max(data[i:i+N])
+        res[i]=data[i:i+N].max()
     return res
 
 # def LLV(data,N):
@@ -66,5 +68,5 @@ def LLV(data,N):
     res=np.zeros_like(data)
     res[-N:]=data[-N:]
     for i in range(len(data)-N,-1,-1):
-        res[i]=np.min(data[i:i+N])
+        res[i]=data[i:i+N].min()
     return res
