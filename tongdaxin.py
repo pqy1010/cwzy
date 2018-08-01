@@ -59,5 +59,12 @@ def HHV(data,N):
         res[i]=np.max(data[i:i+N])
     return res
 
+# def LLV(data,N):
+#     return np.min(data[0:N])
+
 def LLV(data,N):
-    return np.min(data[0:N])
+    res=np.zeros_like(data)
+    res[-N:]=data[-N:]
+    for i in range(len(data)-N,-1,-1):
+        res[i]=np.min(data[i:i+N])
+    return res
