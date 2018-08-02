@@ -6,8 +6,10 @@ from tongdaxin import SMA as SMA
 from tongdaxin import CROSS as CROSS
 from tongdaxin import MA  as MA
 from tongdaxin import REF as REF
-from tongdaxin import HHV as HHV
-from tongdaxin import LLV as LLV
+# from tongdaxin import HHV as HHV
+# from tongdaxin import LLV as LLV
+from tdx import HHV as HHV
+from tdx import LLV as LLV
 import time
 
 
@@ -47,15 +49,15 @@ def bulaojijie(data):
 
 
 def zhulikongpan(data):
-    H=HIGH=data['high']
+    H=HIGH=data['high'].values
     C=CLOSE = data['close']
-    L=LOW = data['low']
+    L=LOW = data['low'].values
     O=OPEN = data['open']
     N=35
     M=35
     N1=3
     a=time.time()
-    B1 = (HHV(H, N) - C) / (HHV(H, N) - LLV(LOW, N)) * 100 - M
+    B1 = (HHV(H, N) - C) / (HHV(H, N) - LLV(L, N)) * 100 - M
     print('B1 use %f' % (time.time() - a))
     a=time.time()
     B2 = SMA(B1, N, 1) + 100
