@@ -1,5 +1,5 @@
 import numpy as np
-
+from cython.view cimport array as cvarray
 
 def findmax(double[:] data,N):
     cdef int i
@@ -22,10 +22,9 @@ def findmin(double[:] data,N):
 def HHV(double[:] data,N):
     cdef int i
     cdef double[:] res
-    res=np.zeros_like(data)
-    res=data
+    res=np.zeros_like(data,dtype=np.double)
     for i in range(len(data)-N,-1,-1):
-        res[i]=data[i:i+N].max()
+        res[i]=findmax(data[i:i+N],N)
     return res
 
 # def LLV(data,N):
@@ -34,10 +33,9 @@ def HHV(double[:] data,N):
 def LLV(double[:] data,N):
     cdef int i
     cdef double[:] res
-    res=np.zeros_like(data)
-    res=data
+    res=np.zeros_like(data,dtype=np.double)
     for i in range(len(data)-N,-1,-1):
-        res[i]=data[i:i+N].min()
+        res[i]=findmin(data[i:i+N],N)
     return res
 
 

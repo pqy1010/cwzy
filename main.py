@@ -8,6 +8,39 @@ import time
 
 
 
+money=10000
+tradelist=pd.Series(index=['code','b_time','b_price','b_money','b_count','owntime','state','earn','s_price'])
+
+
+
+
+
+
+
+
+
+def select_golden_data():
+    datalist=ts.get_stock_basics()
+    datalist=datalist.reset_index()
+    stocklist=datalist['code']
+    stocknum=len(stocklist)
+    buylist=[]
+    for i in range(stocknum):
+        dayK=ts.get_k_data(stocklist[i])
+        dayK=dayK[::-1]
+        buy, sell = jingzhuan.huiyanKxian(dayK)
+        x1, x2 = jingzhuan.bulaojijie(dayK)
+        kongpan = jingzhuan.zhulikongpan(dayK)
+
+        buypoint=int(time.mktime(time.strptime(buy[0], '%Y-%m-%d')))
+        nowtime=time.time()
+        if nowtime-buypoint<=2*24*3600:
+
+
+select_golden_data()
+
+
+
 
 
 a=time.time()

@@ -15,14 +15,15 @@ def MA(data, num):
     # return pd.Series(np.vstack([temp[num-1:],np.zeros(num-1).reshape(-1,1)),index=data.index)
     temp=np.convolve(w, data)[0:-num + 1]
     temp=np.roll(temp,-1)
-    return pd.Series(temp,index=data.index)
-
+    # return pd.Series(temp,index=data.index)
+    return temp
 def EMA(data,N):
     res=np.zeros(len(data))
+    res[-1]=data[-1]
     for i in range(len(data)-2,-1,-1):
         res[i]=(2*data[i]+(N-1)*res[i+1])/(N+1)
-    t = pd.Series(res, index=data.index)
-    return t
+    # t = pd.Series(res, index=data.index)
+    return res
 
 def CROSS(x1, x2):
     dx = x1 - x2
@@ -43,8 +44,8 @@ def SMA(data,N,M):
     res[-1]=data[-1]
     for i in range(len(data)-2,-1,-1):
         res[i]=(M*data[i]+(N-M)*res[i+1])/(N)
-    t = pd.Series(res, index=data.index)
-    return t
+    # t = pd.Series(res, index=data.index)
+    return res
 
 # SMA(C,N,M)    = M/N*C + (N-M)/N * REF(SMA(C,N,M),1);
 
