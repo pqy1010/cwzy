@@ -64,10 +64,10 @@ def zhulikongpan(data):
     N1=3
     a=time.time()
     B1 = (HHV(H, N) - C) / (HHV(H, N) - LLV(L, N)) * 100 - M# 此处慢的原因是H,L等都是pd.Serves,如果只取其值则很快.
-    print('B1 use %f' % (time.time() - a))
+    # print('B1 use %f' % (time.time() - a))
     a=time.time()
     B2 = SMA(B1, N, 1) + 100
-    print('B2 use %f' % (time.time() - a))
+    # print('B2 use %f' % (time.time() - a))
     B3 = (C - LLV(L, N)) / (HHV(H, N) - LLV(L, N)) * 100
     B4 = SMA(B3, 3, 1)
     B5 = SMA(B4, 3, 1) + 100
