@@ -75,3 +75,14 @@ def zhulikongpan(data):
     kongpanchengdu=np.where(B6>N1,B6-N1,0)*2.5
     kongpanchengdu = pd.Series(kongpanchengdu, index=data['date'])
     return kongpanchengdu
+
+def qianlongfeitian(data):
+    H = HIGH = data['high'].values
+    C = CLOSE = data['close'].values
+    L = LOW = data['low'].values
+    O = OPEN = data['open'].values
+
+    caopanxian=MA(C,4)
+    anquanxian=MA(C,19)
+    niuxiongfenjie=MA(C,100)
+    
