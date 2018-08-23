@@ -4,13 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import jingzhuan
 import time
-
+from pytdx.hq import TdxHq_API
 
 
 
 money=10000
 tradelist=pd.Series(index=['code','b_time','b_price','b_money','b_count','owntime','state','earn','s_price'])
-
+# ownlist=pd.DataFrame(index=['code',''])
 def stockjudge(info):
     buypoint = int(time.mktime(time.strptime(info['buy'][0], '%Y-%m-%d')))
     # nowtime = time.time()
@@ -42,6 +42,9 @@ def select_golden_data():
         if judge_flag==1:
             buylist.append(stocklist[i])
     return buylist
+
+def buy_precious(buylist):
+    pre_num=len(buylist)
 
 
 

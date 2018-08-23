@@ -1,13 +1,4 @@
 import tushare as ts
-import pandas as pd
-import numpy as np
-from tongdaxin import EMA as EMA
-from tongdaxin import SMA as SMA
-from tongdaxin import CROSS as CROSS
-from tongdaxin import MA  as MA
-from tongdaxin import REF as REF
-from tongdaxin import HHV as HHV
-from tongdaxin import LLV as LLV
 # from tdx import HHV as HHV
 # from tdx import LLV as LLV
 import time
@@ -85,4 +76,3 @@ def qianlongfeitian(data):
     caopanxian=MA(C,4)
     anquanxian=MA(C,19)
     niuxiongfenjie=MA(C,100)
-    
