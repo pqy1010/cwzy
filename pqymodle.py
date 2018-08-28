@@ -48,10 +48,16 @@ def cwzy_get_hist_data(id):
         data_list[i].extend([id,data_json['name']])
     data_pd = pd.core.frame.DataFrame(data_list)
     data_pd.rename(columns={0:'date',1:'open',2:'close',3:'high',4:'low',5:'volume',6:'volume_rmb',7:'am',8:'turnoverrate',9:'code',10:'name'},inplace = True)
+    data_pd=data_pd[::-1]
+    data_pd.reset_index(inplace=True,drop=True)
+    data_pd.iloc[-1].loc['am']='0'
+    data_pd[['open', 'close','high','low','volume','volume_rmb','turnoverrate']] = data_pd[['open', 'close','high','low','volume','volume_rmb','turnoverrate']].astype(float)
     return data_pd
 
 
-
+def bulaojijie_buy_point(S1,S2):
+    buy=CROSS(S1,S2)
+    return buy
 
 if __name__=='__main__':
     data=cwzy_get_hist_data('600821')
