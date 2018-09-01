@@ -33,11 +33,11 @@ def huiyanKxian(data):
     sell=CROSS(X3,X2)
     
     
-    V2=(1-7/100)*(DMA(CLOSE,V1))*T;
-    V3=(1+7/100)*(DMA(CLOSE,V1))*T;
+    V2=(1-7/100)*(DMA(CLOSE,V1))*T
+    V3=(1+7/100)*(DMA(CLOSE,V1))*T
     
-    zhicheng=pd.Serise(V2,index=data['data'])
-    zuli=pd.Serise(V3,index=data['data'])
+    zhicheng=pd.Series(V2,index=data['date'])
+    zuli=pd.Series(V3,index=data['date'])
     return buy,sell,zhicheng,zuli
 
 def bulaojijie(data):

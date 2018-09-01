@@ -60,8 +60,20 @@ def bulaojijie_buy_point(S1,S2):
     return buy
 
 
-
-
+def KDJ(data):
+    H = HIGH = data['high'].values
+    C = CLOSE = data['close'].values
+    L = LOW = data['low'].values
+    O = OPEN = data['open'].values
+    RSV1 = (C - LLV(L, 9)) / (HHV(H, 9) - LLV(L, 9))
+    RSV2 = (RSV1 - 0.5) / 5 * EMA(C, 20)
+    RSVK = SMA(RSV2, 3, 1)
+    RSVD = SMA(RSVK, 3, 1)
+    RSVJ = RSVK * 3 - RSVD * 2
+    K= RSVK + EMA(C, 20)
+    D= RSVD + EMA(C, 20)
+    J= RSVJ + EMA(C, 20)
+    return K,D,J
 
 
 

@@ -3,20 +3,22 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import copy
 
 
 
 
-def MA(data, num):
-    if num==1:
-        return data
-    w = np.ones(num) / num
-    # temp=data.rolling(window=num,center=False).mean()
-    # return pd.Series(np.vstack([temp[num-1:],np.zeros(num-1).reshape(-1,1)),index=data.index)
-    temp=np.convolve(w, data)[0:-num + 1]
-    temp=np.roll(temp,-1)
-    # return pd.Series(temp,index=data.index)
-    return temp
+
+def MA(data,num):
+    w=np.ones(num)/num
+    tempdata=copy.deepcopy(data)
+
+    for i in range(0,len(data)-num):
+        tempdata[i]=np.dot(w,data[i:i+num])
+    return tempdata
+
+
+
 def EMA(data,N):
     res=np.zeros(len(data))
     res[-1]=data[-1]
@@ -49,10 +51,12 @@ def SMA(data,N,M):
 
 
 def DMA(X,A):
-    
+    w=copy.deepcopy(A)
+    w=np.where(w>1,1,w)
     tempdata=np.zeros_like(X)
     for i in range(len(X)-2,-1,-1):
-        tempdata[i]=X*A[i]+tempdata[i+1]*(1-A[i])
+        tempdata[i]=X[i]*w[i]+tempdata[i+1]*(1-w[i])
+    return tempdata
 
 
 # SMA(C,N,M)    = M/N*C + (N-M)/N * REF(SMA(C,N,M),1);
