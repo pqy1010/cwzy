@@ -59,6 +59,13 @@ def bulaojijie_buy_point(S1,S2):
     buy=CROSS(S1,S2)
     return buy
 
+
+
+
+
+
+
+
 if __name__=='__main__':
     data=cwzy_get_hist_data('600821')
     time.sleep(1)

@@ -9,6 +9,7 @@ from tongdaxin import MA  as MA
 from tongdaxin import REF as REF
 from tongdaxin import HHV as HHV
 from tongdaxin import LLV as LLV
+from tongdaxin import DMA as DMA
 import time
 import numpy as np
 
@@ -30,7 +31,14 @@ def huiyanKxian(data):
     X3=pd.Series(X3,index=data['date'])
     buy = CROSS(X2, X3)
     sell=CROSS(X3,X2)
-    return buy,sell
+    
+    
+    V2=(1-7/100)*(DMA(CLOSE,V1))*T;
+    V3=(1+7/100)*(DMA(CLOSE,V1))*T;
+    
+    zhicheng=pd.Serise(V2,index=data['data'])
+    zuli=pd.Serise(V3,index=data['data'])
+    return buy,sell,zhicheng,zuli
 
 def bulaojijie(data):
     CLOSE = data['close'].values

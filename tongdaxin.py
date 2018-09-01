@@ -47,6 +47,14 @@ def SMA(data,N,M):
     # t = pd.Series(res, index=data.index)
     return res
 
+
+def DMA(X,A):
+    
+    tempdata=np.zeros_like(X)
+    for i in range(len(X)-2,-1,-1):
+        tempdata[i]=X*A[i]+tempdata[i+1]*(1-A[i])
+
+
 # SMA(C,N,M)    = M/N*C + (N-M)/N * REF(SMA(C,N,M),1);
 
 
