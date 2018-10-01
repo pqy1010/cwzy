@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 import jingzhuan
 import time
 from pytdx.hq import TdxHq_API
-
+import sqlite3
 
 
 money=10000
-tradelist=pd.Series(index=['code','b_time','b_price','b_money','b_count','owntime','state','earn','s_price'])
+tradelist=pd.Series(index=['name','code','b_time','b_price','b_money','b_count','owntime','state','earn','s_price','s_time'])
 # ownlist=pd.DataFrame(index=['code',''])
 def stockjudge(info):
     buypoint = int(time.mktime(time.strptime(info['buy'][0], '%Y-%m-%d')))
@@ -34,22 +34,51 @@ def select_golden_data():
         dayK=dayK[::-1]
         if dayK.shape[0]<=60:
             continue
-        buy, sell = jingzhuan.huiyanKxian(dayK)
+        buy, sell,zhicheng,zuli = jingzhuan.huiyanKxian(dayK)
         x1, x2 = jingzhuan.bulaojijie(dayK)
         kongpan = jingzhuan.zhulikongpan(dayK)
         stockinfo={'data':dayK,'buy':buy,'sell':sell,'x1':x1,'x2':x2,'kongpan':kongpan}
         judge_flag=stockjudge(stockinfo)
         if judge_flag==1:
-            buylist.append(stocklist[i])
+            buylist.append([stocklist[i],datalist['name'][i]])
     return buylist
 
 def buy_precious(buylist):
     pre_num=len(buylist)
 
-
-
+def savebuylisttodb(datalist):
+    conn = sqlite3.connect('stockinfo.db')
+    c = conn.cursor()
+    tableres = c.execute('select * from sqlite_master where type=\'table\' and name=\'stockstatus\'')
+    tablenum = tableres.fetchall()
+    if len(tablenum) == 0:
+        print('creat table stockstatus')
+        sql = '''create table stockstatus(
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                name text,
+                code text,
+                ctime text,
+                b_time text,
+                b_price float,
+                b_money float,
+                b_count int,
+                owntime float,
+                state text,
+                earn float,
+                earnrate float,
+                s_price float,
+                s_time text                
+                );'''
+        c.execute(sql)
+        conn.commit()
+    for data in datalist:
+        ctime=time.localtime(time.time())
+        ctimestr='%d-%d-%d %d:%d:%d'%(ctime.tm_year,ctime.tm_mon,ctime.tm_mday,ctime.tm_hour,ctime.tm_min,ctime.tm_sec)
+        c.execute('insert into stockstatus(name,code,state,ctime)values(?,?,?,?) ',(data[1],data[0],'wait buy',ctimestr))
+    conn.commit()
+    conn.close()
 buylist=select_golden_data()
-
+savebuylisttodb(buylist)
 
 ## test code------------------------------------------------------
 
